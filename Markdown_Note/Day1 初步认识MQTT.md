@@ -95,6 +95,24 @@ from config import BROKER, PORT, TOPIC
 
 ## 三、`publisher.py`：发布 MQTT 消息
 
+### 总体流程
+
+```text
+创建 Client
+    ↓
+连接 MQTT Broker
+    ↓
+准备设备数据
+    ↓
+转换为 JSON
+    ↓
+发布到 Topic
+    ↓
+等待 1 秒后重复
+```
+
+Publisher 负责准备消息并发布到 Broker，不直接把消息发送给 Subscriber。
+
 ### 1. 导入模块
 
 ```python
@@ -224,6 +242,24 @@ while True:
 ```
 
 ## 四、`subscriber.py`：订阅并接收消息
+
+### 总体流程
+
+```text
+创建 Client
+    ↓
+注册消息回调函数
+    ↓
+连接 MQTT Broker
+    ↓
+订阅 Topic
+    ↓
+持续运行并等待消息
+    ↓
+收到消息后调用回调函数并打印
+```
+
+Subscriber 负责订阅 Topic，等待 Broker 转发消息，再交给回调函数处理。
 
 ### 1. 定义消息回调函数
 
